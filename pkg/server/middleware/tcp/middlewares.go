@@ -7,6 +7,7 @@ import (
 
 	"github.com/traefik/traefik/v2/pkg/config/runtime"
 	ipwhitelist "github.com/traefik/traefik/v2/pkg/middlewares/tcp/ipwhitelist"
+	"github.com/traefik/traefik/v2/pkg/middlewares/tcp/webspaceboot"
 	"github.com/traefik/traefik/v2/pkg/server/provider"
 	"github.com/traefik/traefik/v2/pkg/tcp"
 )
@@ -90,6 +91,13 @@ func (b *Builder) buildConstructor(ctx context.Context, middlewareName string) (
 	if config.IPWhiteList != nil {
 		middleware = func(next tcp.Handler) (tcp.Handler, error) {
 			return ipwhitelist.New(ctx, next, *config.IPWhiteList, middlewareName)
+		}
+	}
+
+	// WebspaceBoot
+	if config.WebspaceBoot != nil {
+		middleware = func(next tcp.Handler) (tcp.Handler, error) {
+			return webspaceboot.New(ctx, next, *config.WebspaceBoot, middlewareName)
 		}
 	}
 

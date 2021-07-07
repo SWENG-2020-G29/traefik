@@ -28,6 +28,7 @@ import (
 	"github.com/traefik/traefik/v2/pkg/middlewares/stripprefix"
 	"github.com/traefik/traefik/v2/pkg/middlewares/stripprefixregex"
 	"github.com/traefik/traefik/v2/pkg/middlewares/tracing"
+	"github.com/traefik/traefik/v2/pkg/middlewares/webspaceboot"
 	"github.com/traefik/traefik/v2/pkg/server/provider"
 )
 
@@ -336,6 +337,16 @@ func (b *Builder) buildConstructor(ctx context.Context, middlewareName string) (
 		}
 		middleware = func(next http.Handler) (http.Handler, error) {
 			return stripprefixregex.New(ctx, next, *config.StripPrefixRegex, middlewareName)
+		}
+	}
+
+	// WebspaceBoot
+	if config.WebspaceBoot != nil {
+		if middleware != nil {
+			return nil, badConf
+		}
+		middleware = func(next http.Handler) (http.Handler, error) {
+			return webspaceboot.New(ctx, next, *config.WebspaceBoot, middlewareName)
 		}
 	}
 

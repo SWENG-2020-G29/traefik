@@ -726,6 +726,11 @@ func (in *MiddlewareSpec) DeepCopyInto(out *MiddlewareSpec) {
 		*out = new(dynamic.ContentType)
 		**out = **in
 	}
+	if in.WebspaceBoot != nil {
+		in, out := &in.WebspaceBoot, &out.WebspaceBoot
+		*out = new(dynamic.WebspaceBoot)
+		**out = **in
+	}
 	if in.Plugin != nil {
 		in, out := &in.Plugin, &out.Plugin
 		*out = make(map[string]v1.JSON, len(*in))
@@ -813,6 +818,11 @@ func (in *MiddlewareTCPSpec) DeepCopyInto(out *MiddlewareTCPSpec) {
 		in, out := &in.IPWhiteList, &out.IPWhiteList
 		*out = new(dynamic.TCPIPWhiteList)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.WebspaceBoot != nil {
+		in, out := &in.WebspaceBoot, &out.WebspaceBoot
+		*out = new(dynamic.WebspaceBoot)
+		**out = **in
 	}
 	return
 }
