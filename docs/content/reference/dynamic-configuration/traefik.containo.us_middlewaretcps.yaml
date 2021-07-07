@@ -44,6 +44,16 @@ spec:
                       type: string
                     type: array
                 type: object
+              webspaceBoot:
+                description: WebspaceBoot holds the WebspaceBoot configuration
+                properties:
+                  iamToken:
+                    type: string
+                  url:
+                    type: string
+                  userID:
+                    type: integer
+                type: object
             type: object
         required:
         - metadata

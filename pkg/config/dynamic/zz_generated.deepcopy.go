@@ -728,6 +728,11 @@ func (in *Middleware) DeepCopyInto(out *Middleware) {
 		*out = new(ContentType)
 		**out = **in
 	}
+	if in.WebspaceBoot != nil {
+		in, out := &in.WebspaceBoot, &out.WebspaceBoot
+		*out = new(WebspaceBoot)
+		**out = **in
+	}
 	if in.Plugin != nil {
 		in, out := &in.Plugin, &out.Plugin
 		*out = make(map[string]PluginConf, len(*in))
@@ -1372,6 +1377,11 @@ func (in *TCPMiddleware) DeepCopyInto(out *TCPMiddleware) {
 		in, out := &in.IPWhiteList, &out.IPWhiteList
 		*out = new(TCPIPWhiteList)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.WebspaceBoot != nil {
+		in, out := &in.WebspaceBoot, &out.WebspaceBoot
+		*out = new(WebspaceBoot)
+		**out = **in
 	}
 	return
 }

@@ -262,6 +262,7 @@ func (p *Provider) loadConfigurationFromCRD(ctx context.Context, client Client) 
 			PassTLSClientCert: middleware.Spec.PassTLSClientCert,
 			Retry:             retry,
 			ContentType:       middleware.Spec.ContentType,
+			WebspaceBoot:      middleware.Spec.WebspaceBoot,
 			Plugin:            plugin,
 		}
 	}
@@ -270,7 +271,8 @@ func (p *Provider) loadConfigurationFromCRD(ctx context.Context, client Client) 
 		id := provider.Normalize(makeID(middlewareTCP.Namespace, middlewareTCP.Name))
 
 		conf.TCP.Middlewares[id] = &dynamic.TCPMiddleware{
-			IPWhiteList: middlewareTCP.Spec.IPWhiteList,
+			IPWhiteList:  middlewareTCP.Spec.IPWhiteList,
+			WebspaceBoot: middlewareTCP.Spec.WebspaceBoot,
 		}
 	}
 
