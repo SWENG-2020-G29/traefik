@@ -1,0 +1,33 @@
+name: Docker Image
+
+on:
+  push:
+    branches:
+      - webspace-ng
+
+jobs:
+  build_push:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKER_REPO: ghcr.io/netsoc/traefik
+      TRAEFIK_VERSION: '2.5.0-rc2'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Log into GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: |
+          SHORTREF="$(echo ${{ github.sha }} | cut -c 1-8)"
+          make "REPONAME=$DOCKER_REPO" VERSION="$TRAEFIK_VERSION-$SHORTREF-netsoc" build-image
+          docker tag "$DOCKER_REPO" "$DOCKER_REPO:$TRAEFIK_VERSION-$SHORTREF"
+
+      - name: Push image
+        run: docker push --all-tags "$DOCKER_REPO"
